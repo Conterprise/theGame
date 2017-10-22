@@ -17,10 +17,10 @@ import com.thegame.game.view.Screen;
 public class GameController extends Canvas implements Runnable, EventListener {
 	private static final long serialVersionUID = 1L;
 
-	private static int width = 300;
+	private static int width = 600;
 	private static int height = width / 16 * 9;
 	private static int scale = 3;
-	public static String title = "3DPro Alpha 0.1";
+	public static String title = "The Awesome Game";
 
 	private Thread thread;
 	private JFrame frame;
