@@ -1,13 +1,17 @@
 package com.thegame.game.view;
 
 import java.awt.Component;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class Screen extends Component {
+
+	private static final long serialVersionUID = 1L;
+	private int width;
+	private int height; 
+
+	public Screen(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
 	
 	
 }

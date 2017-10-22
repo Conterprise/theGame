@@ -1,53 +1,97 @@
 package com.thegame.game;
 
-import java.awt.Component;
+import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.DataBufferInt;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
 
-import javax.imageio.ImageIO;
+import com.thegame.game.events.Event;
+import com.thegame.game.events.EventListener;
+import com.thegame.game.input.Keyboard;
+import com.thegame.game.input.Mouse;
+import com.thegame.game.level.Level;
+import com.thegame.game.view.Screen;
 
-import com.thegame.game.model.GameModel;
-import com.thegame.game.view.GameView;
+public class GameController extends Canvas implements Runnable, EventListener {
+	private static final long serialVersionUID = 1L;
 
-public class GameController {
+	private static int width = 300;
+	private static int height = width / 16 * 9;
+	private static int scale = 3;
+	public static String title = "3DPro Alpha 0.1";
 
-	private GameView view;
-	private GameModel model;
+	private Thread thread;
+	private JFrame frame;
+	private Keyboard key;
+	private Level level;
+	//private Player player;
+	private boolean running = false;
 	
-	public GameController() {
-		this.view = new GameView();
-		this.model = new GameModel();
-	}
+	private static UIManager uiManager;
+
+	private Screen screen;
+	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	
-	
-	public Component getView() {
-		return this.view;
-	}
-	
-	
-	private void loadBackground() {
-		BufferedImage img;
+	public GameController() { 
+		Dimension size = new Dimension(width * scale, height * scale);
+		setPreferredSize(size);
+
+		screen = new Screen(width, height);
+		uiManager = new UIManager();
+		frame = new JFrame();
+		key = new Keyboard();
+				
+		addKeyListener(key);
 		
-		try{
-			img = ImageIO.read(new File("background.png"));
-			
-			int width = img.getWidth();
-			int height = img.getHeight();
-			
-			int[][] pixelArray = new int[width][height];
-			
-			for(int i = 0; i < width; i++){
-				for(int j = 0; j < height; j++){
-					pixelArray[i][j] = img.getRGB(i, j);
-				}
-			}
-			
-			this.model.setBackground(pixelArray);
-			
-		}catch(IOException e){
+		Mouse mouse = new Mouse(this);
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
+	}
+	
+	public static int getWindowWidth() {
+		return width * scale;
+	}
+	
+	public static int getWindowHeight() {
+		return height * scale;
+	}
+	
+	public static UIManager getUIManager() {
+		return uiManager;
+	}
+
+	public synchronized void start() {
+		running = true;
+		thread = new Thread(this, "Display");
+		thread.start();
+	}
+
+	public synchronized void stop() {
+		running = false;
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public void run() {
+		// Game Loop
+	}
+
+	public void update() {
+		//
+	}
+
+	public void render() {
+		//
+	}
+
+	@Override
+	public void onEvent(Event event) {
+		//
+	}
 }

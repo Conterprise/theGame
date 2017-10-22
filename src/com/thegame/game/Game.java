@@ -82,7 +82,7 @@ public class Game {
 		playFrame.setResizable(false);
 		playFrame.setTitle("The Awesome Game");
 
-		playFrame.add(game.getView());
+		playFrame.add(game);
 	}
 
 }
