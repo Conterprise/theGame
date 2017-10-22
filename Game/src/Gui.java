@@ -1,70 +1,94 @@
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+public class Gui {
 
-public class Gui extends JPanel implements ActionListener{
+	private static JFrame menuFrame;
+	private static JFrame playFrame;
 	
-	Image img;
-	int key;
-	int lauf;
-	
-	public Gui(){
-		key = 0;
-		lauf = 0;
+	private static JButton starten;
+	private static JButton einstellungen;
+	private static JButton credits;
+	private static JButton ende;
+
+
+	public static void main(String[] args) {
 		
-		setFocusable(true);
-		ImageIcon u = new ImageIcon("backgrund.png");
-		img = u.getImage();
-	}
-	
-	
-	public void paint(Graphics g){
-		super.paint(g);
-		Graphics2D f2 =(Graphics2D) g;
-		
-		f2.drawImage(img, 0, 0, null);
-	}
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
+		menuFrame = new JFrame("Menü");
+		menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menuFrame.setSize(400,400);
+		menuFrame.setLayout(null);
+		menuFrame.setVisible(true);
+		menuFrame.setLocationRelativeTo(null);
+		menuFrame.setTitle("Menü");
+		menuFrame.setResizable(false);
+		createButtons(menuFrame);
 		
 	}
 	
-	private class AL extends KeyAdapter{
-		public AL(){
-			
-		}
-		
-		public void keyPressed(KeyEvent e){
-			key = e.getKeyCode();
-			
-			if(key == KeyEvent.VK_LEFT){
-				lauf = 1;
+	public static void createButtons(JFrame frame){
+		starten = new JButton("Spiel starten");
+		starten.setBounds(120, 40, 160, 40);
+		starten.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				play();
 			}
-			
-			
-			if(key == KeyEvent.VK_RIGHT){
-				lauf = -1;
-			}
-		}
+		});
+		frame.add(starten);
 		
-		public void keyReleased(KeyEvent e){
-			key = e.getKeyCode();
-			
-			if(key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT){
-				lauf = 0;
+		einstellungen = new JButton("Einstellungen");
+		einstellungen.setBounds(120, 120, 160, 40);
+		einstellungen.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				showOptions();
 			}
-		}
+		});
+		frame.add(einstellungen);
 		
+		credits = new JButton("Credits");
+		credits.setBounds(120, 200, 160, 40);
+		credits.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				JOptionPane.showOptionDialog(null, "v 0.1", "Credits", 
+						 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+			}
+		});
+		frame.add(credits);
+		
+		ende = new JButton("Ende");
+		ende.setBounds(120, 280, 160, 40);
+		ende.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				System.exit(0);
+			}
+		});
+		frame.add(ende);
+	}
+	
+	
+	
+	public static void play(){
+		playFrame = new JFrame();
+		playFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		playFrame.setSize(1024, 512);
+		playFrame.setVisible(true);
+		playFrame.setLocationRelativeTo(null);
+		playFrame.setResizable(false);
+		playFrame.setTitle("The Awesome Game");
+		
+		ImageIcon icon = new ImageIcon("background.png");
+		JLabel label = new JLabel(icon);
+
+		playFrame.add(label);
+	}
+	
+	public static void showOptions(){
 		
 	}
+
+
+
+
 }
