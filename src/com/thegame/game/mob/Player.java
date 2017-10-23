@@ -45,7 +45,7 @@ public class Player extends Mob implements EventListener {
 
 	public void update() {
 		double xa = 0, ya = 0;
-		double speed = 1.4;
+		double speed = 3.4;
 		if (input.up) {
 			ya -= speed;
 		}
@@ -58,6 +58,10 @@ public class Player extends Mob implements EventListener {
 		if (input.right) {
 			xa += speed;
 		}
+		
+		// g-force
+		ya += (speed * 0.7);
+		
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
 			walking = true;
