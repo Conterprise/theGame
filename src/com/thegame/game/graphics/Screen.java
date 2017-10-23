@@ -32,9 +32,16 @@ public class Screen {
 		}
 	}
 	
-	public void renderBackground(int[] bg) {
+	public void renderBackground(int[] bg, int bgHeight, int bgWidth) {
 		if (bg == null || bg.length != (width * height))
 			return;
+		
+		for (int y = 0; y < bgHeight; y++) {
+			for (int x = 0; x < bgWidth; x++) {
+				if (x < 0 || x >= width || y < 0 || y >= height) continue;
+				pixels[x + y * width] = bg[x + y * bgWidth];
+			}
+		}
 		
 		pixels = bg;
 	}
