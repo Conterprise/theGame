@@ -26,7 +26,7 @@ public class Level extends Layer {
 	
 	private List<Mob> players = new ArrayList<Mob>();
 	
-	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg_.png");
+	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg.png");
 
 	public Level(int width, int height, String bgPath) {
 		loadBackground(bgPath);
@@ -43,7 +43,7 @@ public class Level extends Layer {
 	
 	protected void loadLevel(String mapPath) {
 		try {
-			BufferedImage image = ImageIO.read(getClass().getResource(mapPath));
+			BufferedImage image = ImageIO.read(Level.class.getResource(mapPath));
 			int w = width = image.getWidth();
 			int h = height = image.getHeight();
 			tiles = new int[w * h];			
@@ -56,7 +56,7 @@ public class Level extends Layer {
 	
 	protected void loadBackground(String bgPath) {
 		try {
-			BufferedImage image = ImageIO.read(getClass().getResource(bgPath));
+			BufferedImage image = ImageIO.read(Level.class.getResource(bgPath));
 			int w = bgwidth = image.getWidth();
 			int h = bgheight = image.getHeight();
 			background = new int[w * h];			
