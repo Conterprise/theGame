@@ -8,12 +8,6 @@ public class Event {
 		MOUSE_MOVED
 	}
 	
-	public static enum Mode {
-		SELECT,
-		BUILD,
-		REMOVE
-	}
-	
 	private Type type;
 	boolean handled;
 	

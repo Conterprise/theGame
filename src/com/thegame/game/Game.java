@@ -1,7 +1,6 @@
 package com.thegame.game;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -72,17 +71,22 @@ public class Game {
 	
 	
 	public static void play(){
-		GameController game = new GameController();
+		menuFrame.setVisible(false);
+		menuFrame.dispose();
+		menuFrame = null;
 		
-		playFrame = new JFrame();
-		playFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		playFrame.setSize(1024, 512);
-		playFrame.setVisible(true);
-		playFrame.setLocationRelativeTo(null);
+		GameController game = new GameController();
+		playFrame = game.getFrame();
+		
 		playFrame.setResizable(false);
-		playFrame.setTitle("The Awesome Game");
-
+		playFrame.setTitle(GameController.title);
 		playFrame.add(game);
+		playFrame.pack();
+		playFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		playFrame.setLocationRelativeTo(null);
+		playFrame.setVisible(true);
+
+		game.start();
 	}
 
 }
