@@ -1,24 +1,16 @@
 package com.thegame.game.mob;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
 import com.thegame.game.events.Event;
 import com.thegame.game.events.EventDispatcher;
 import com.thegame.game.events.EventListener;
 import com.thegame.game.graphics.Screen;
+import com.thegame.game.graphics.Sprite;
 import com.thegame.game.input.Keyboard;
 
 public class Player extends Mob implements EventListener {
 
 	private String name;
 	private Keyboard input;
-	private boolean walking = false;
-	private BufferedImage image;
-	
-	private boolean shooting = false;
 
 	public Player(String name, Keyboard input) {
 		this.name = name;
@@ -31,13 +23,8 @@ public class Player extends Mob implements EventListener {
 		this.x = x;
 		this.y = y;
 		this.input = input;
-		
-		try {
-			image = ImageIO.read(new File("res/textures/home.png"));			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		sprite = Sprite.player;
+				
 		// Player default attributes
 		health = 100;
 	}
@@ -80,6 +67,6 @@ public class Player extends Mob implements EventListener {
 	}
 
 	public void render(Screen screen) {
-		screen.drawRect((int) (x - 16), (int) (y - 16), 32, 32, 0, false);
+		screen.renderSprite((int) (x - 64), (int) (y - 64), sprite, false);
 	}
 }

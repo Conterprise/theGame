@@ -6,6 +6,8 @@ import com.thegame.game.mob.Mob;
 import com.thegame.game.tile.Tile;
 
 public class Screen {
+	
+	public final static int ALPHA_COL = 0xFFFF00FF;
 
 	public int width, height;
 	public int[] pixels;
@@ -14,7 +16,6 @@ public class Screen {
 	public int xOffset, yOffset;
 	public int[] tiles = new int[MAP_SIZE * MAP_SIZE];
 	private Random random = new Random();
-	private final int ALPHA_COL = 0xFFFF00FF;
 
 	public Screen(int width, int height) {
 		this.width = width;
@@ -32,18 +33,16 @@ public class Screen {
 		}
 	}
 	
-	public void renderBackground(int[] bg, int bgHeight, int bgWidth) {
-		if (bg == null || bg.length != (width * height))
+	public void renderBackground(int[] bg, int bgwidth, int bgheight) {
+		if (bg == null)
 			return;
 		
-		for (int y = 0; y < bgHeight; y++) {
-			for (int x = 0; x < bgWidth; x++) {
+		for (int y = 0; y < bgheight; y++) {
+			for (int x = 0; x < bgwidth; x++) {
 				if (x < 0 || x >= width || y < 0 || y >= height) continue;
-				pixels[x + y * width] = bg[x + y * bgWidth];
+				pixels[x + y * width] = bg[x + y * bgwidth];
 			}
 		}
-		
-		pixels = bg;
 	}
 	
 	public void renderSheet(int xp, int yp, SpriteSheet sheet, boolean fixed) {
@@ -122,8 +121,8 @@ public class Screen {
 				int xs = x;		
 				if (xa < -32 || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;				
-				//int col = mob.getSprite().pixels[xs + ys * 32];
-				//if (col != ALPHA_COL) pixels[xa + ya * width] = col;
+				int col = mob.getSprite().pixels[xs + ys * 32];
+				if (col != ALPHA_COL) pixels[xa + ya * width] = col;
 			}
 		}
 	}

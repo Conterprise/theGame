@@ -2,6 +2,7 @@ package com.thegame.game.mob;
 
 import com.thegame.game.entity.Entity;
 import com.thegame.game.graphics.Screen;
+import com.thegame.game.tile.Tile;
 
 public abstract class Mob extends Entity {
 
@@ -73,10 +74,10 @@ public abstract class Mob extends Entity {
 			int iy = (int) Math.ceil(yt);
 			if (c % 2 == 0) ix = (int) Math.floor(xt);
 			if (c / 2 == 0) iy = (int) Math.floor(yt);
-			if (level.getTile(ix, iy).solid()) solid = true;
+			Tile tile = level.getTile(ix, iy);
+			if (tile != null && tile.solid()) solid = true;
 		}
 		
 		return solid;
-	}
-	
+	}	
 }

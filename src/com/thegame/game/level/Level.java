@@ -17,6 +17,7 @@ import com.thegame.game.tile.Tile;
 public class Level extends Layer {
 
 	protected int width, height;
+	protected int bgwidth, bgheight;
 	protected int[] tiles;
 	protected int tile_size;
 	
@@ -25,7 +26,7 @@ public class Level extends Layer {
 	
 	private List<Mob> players = new ArrayList<Mob>();
 	
-	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/map.png");
+	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg_.png");
 
 	public Level(int width, int height, String bgPath) {
 		loadBackground(bgPath);
@@ -56,15 +57,10 @@ public class Level extends Layer {
 	protected void loadBackground(String bgPath) {
 		try {
 			BufferedImage image = ImageIO.read(getClass().getResource(bgPath));
-			int bgwidth = image.getWidth();
-			int bgheight = image.getHeight();
-			background = new int[bgwidth * bgheight];			
-			
-			for(int x = 0; x < bgwidth; x++){
-				for(int y = 0; y < bgheight; y++){
-					background[x + y * bgwidth] = image.getRGB(x, y);
-				}
-			}
+			int w = bgwidth = image.getWidth();
+			int h = bgheight = image.getHeight();
+			background = new int[w * h];			
+			image.getRGB(0, 0, w, h, background, 0, w);
 		} catch (IOException ex) {
 			System.out.println("Exception! Could not load level file!");
 		}
@@ -115,11 +111,13 @@ public class Level extends Layer {
 		int y0 = yScroll >> 4;
 		int y1 = (yScroll + screen.height + 16) >> 4;
 		
-		screen.renderBackground(this.background, 201, 101);
+		screen.renderBackground(this.background, this.bgwidth, this.bgheight);
 
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
-				getTile(x, y).render(x, y, screen);
+				Tile tile = getTile(x, y);
+				if (tile != null)
+					tile.render(x, y, screen);
 			}
 		}
 		
@@ -170,6 +168,7 @@ public class Level extends Layer {
 	// Rock = 0x7F7F00
 	public Tile getTile(int x, int y) {
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
+		if (tiles[x + y * width] == Screen.ALPHA_COL) return null;
 		if (tiles[x + y * width] == Tile.col_grass) return Tile.grass;
 		if (tiles[x + y * width] == Tile.col_rock) return Tile.rock;
 

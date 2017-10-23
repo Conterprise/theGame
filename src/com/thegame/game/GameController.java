@@ -20,19 +20,21 @@ import com.thegame.game.graphics.Screen;
 import com.thegame.game.input.Keyboard;
 import com.thegame.game.input.Mouse;
 import com.thegame.game.level.Level;
+import com.thegame.game.mob.Player;
 
 public class GameController extends Canvas implements Runnable, EventListener {
 	private static final long serialVersionUID = 1L;
 
-	private static int width = 600;
-	private static int height = width / 16 * 9;
-	private static int scale = 3;
+	private static int width = 1024;
+	private static int height = 512; //width / 16 * 9;
+	private static int scale = 1;
 	public static String title = "The Awesome Game";
 
 	private Thread thread;
 	private JFrame frame;
 	private Keyboard key;
 	private Level level;
+	private Player player;
 	private boolean running = false;
 
 	private Screen screen;
@@ -49,6 +51,8 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		frame = new JFrame();
 		key = new Keyboard();
 		level = Level.spawn;
+		player = new Player("Vens", 50, 50, key);
+		level.addPlayer(player);
 		addLayer(level);
 				
 		addKeyListener(key);

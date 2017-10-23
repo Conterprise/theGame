@@ -3,11 +3,13 @@ package com.thegame.game.entity;
 import java.util.Random;
 
 import com.thegame.game.graphics.Screen;
+import com.thegame.game.graphics.Sprite;
 import com.thegame.game.level.Level;
 
 public class Entity {
 
 	protected int x, y;
+	protected Sprite sprite;
 	private boolean removed = false;
 	protected Level level;
 	protected final Random random = new Random();
@@ -16,16 +18,17 @@ public class Entity {
 		
 	}
 	
-	public Entity(int x, int y) {
+	public Entity(int x, int y, Sprite sprite) {
 		this.x = x;
 		this.y = y;
+		this.sprite = sprite;
 	}
 	
 	public void update() {
 	}
 	
 	public void render(Screen screen) {
-		//
+		if (sprite != null) screen.renderSprite((int) x, (int) y, sprite, true);
 	}
 	
 	public void remove() {
@@ -46,6 +49,10 @@ public class Entity {
 	
 	public void init(Level level) {
 		this.level = level;
+	}
+	
+	public Sprite getSprite() {
+		return sprite;
 	}
 	
 }
