@@ -25,7 +25,7 @@ public class Level extends Layer {
 	
 	private List<Mob> players = new ArrayList<Mob>();
 	
-	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg.png");
+	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/map.png");
 
 	public Level(int width, int height, String bgPath) {
 		loadBackground(bgPath);
@@ -42,7 +42,7 @@ public class Level extends Layer {
 	
 	protected void loadLevel(String mapPath) {
 		try {
-			BufferedImage image = ImageIO.read(Level.class.getResource(mapPath));
+			BufferedImage image = ImageIO.read(getClass().getResource(mapPath));
 			int w = width = image.getWidth();
 			int h = height = image.getHeight();
 			tiles = new int[w * h];			
@@ -55,11 +55,16 @@ public class Level extends Layer {
 	
 	protected void loadBackground(String bgPath) {
 		try {
-			BufferedImage image = ImageIO.read(Level.class.getResource(bgPath));
-			int w = width = image.getWidth();
-			int h = height = image.getHeight();
-			background = new int[w * h];			
-			image.getRGB(0, 0, w, h, background, 0, w);
+			BufferedImage image = ImageIO.read(getClass().getResource(bgPath));
+			int bgwidth = image.getWidth();
+			int bgheight = image.getHeight();
+			background = new int[bgwidth * bgheight];			
+			
+			for(int x = 0; x < bgwidth; x++){
+				for(int y = 0; y < bgheight; y++){
+					background[x + y * bgwidth] = image.getRGB(x, y);
+				}
+			}
 		} catch (IOException ex) {
 			System.out.println("Exception! Could not load level file!");
 		}
@@ -110,7 +115,7 @@ public class Level extends Layer {
 		int y0 = yScroll >> 4;
 		int y1 = (yScroll + screen.height + 16) >> 4;
 		
-		screen.renderBackground(this.background);
+		screen.renderBackground(this.background, 201, 101);
 
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {

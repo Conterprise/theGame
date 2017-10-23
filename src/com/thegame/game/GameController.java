@@ -6,8 +6,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.thegame.game.events.Event;
@@ -38,7 +41,7 @@ public class GameController extends Canvas implements Runnable, EventListener {
 
 	private List<Layer> layerStack = new ArrayList<Layer>();
 	
-	public GameController() { 
+	public GameController() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 
@@ -46,12 +49,17 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		frame = new JFrame();
 		key = new Keyboard();
 		level = Level.spawn;
+		addLayer(level);
 				
 		addKeyListener(key);
 		
 		Mouse mouse = new Mouse(this);
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
+	}
+	
+	public void addLayer(Layer layer) {
+		layerStack.add(layer);
 	}
 
 	public JFrame getFrame() {
