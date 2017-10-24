@@ -81,12 +81,54 @@ public class Level extends Layer {
 			players.get(i).update();
 		}
 		remove();
+
+		int[] firstCol = new int[bgheight];
+		firstCol = saveCol(firstCol);
+		shiftPixels();
+		fillCol(firstCol);
 	}
+	
 
 	private void remove() {
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).isRemoved()) players.remove(i);
 		}
+	}
+	
+	//speichert die erste Spalte
+	private int[] saveCol(int[] firstCol){
+		for(int i = 0; i < bgheight; i++){
+			firstCol[i] = background[i * bgwidth];
+		}
+		return firstCol;
+	}
+	
+	//schiebt alle übrigen Pixel nach links
+	private void shiftPixels(){
+		int m = 0;
+		int n = 0;
+		do{
+			background[m] = background[m + 1];
+			if(n != bgwidth - 2){
+				m++;
+				n++;
+			}
+			else{
+				m = m + 2;
+				n = 0;
+			}
+		}while(m < background.length - 1);		
+	}
+	
+	//fuellt die letzte Spalte auf
+	public void fillCol(int[] firstCol){
+		int y = bgwidth - 1;
+		int s = 0;
+		do{
+			background[y] = firstCol[s];
+			y += bgwidth;
+			s++;
+		}while(y < background.length);
 	}
 
 	public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset) {
