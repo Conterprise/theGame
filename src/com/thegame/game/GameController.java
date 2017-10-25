@@ -6,11 +6,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.thegame.game.events.Event;
@@ -25,8 +22,8 @@ import com.thegame.game.mob.Player;
 public class GameController extends Canvas implements Runnable, EventListener {
 	private static final long serialVersionUID = 1L;
 
-	private static int width = 1024;
-	private static int height = 512; //width / 16 * 9;
+	private static int width = 600;
+	private static int height = width / 16 * 9;
 	private static int scale = 1;
 	public static String title = "The Awesome Game";
 
@@ -149,16 +146,15 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		}
 
 		screen.clear();
-		//int xScroll = player.getX() - screen.width / 2;
-		//int yScroll = player.getY() - screen.height / 2;
-		//level.setScroll(xScroll, yScroll);
+		int xScroll = player.getX() - screen.width / 2;
+		int yScroll = player.getY() - screen.height / 2;
+		level.setScroll(xScroll, yScroll);
 		
 		//render layer
 		for (int i = 0; i < layerStack.size(); i++) {
 			layerStack.get(i).render(screen);
 		}
 		
-		//font.render(50, 50, -10, "Hey this is a long Text to output\nand continues in new line...", screen);
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}

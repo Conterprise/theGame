@@ -26,7 +26,7 @@ public class Level extends Layer {
 	
 	private List<Mob> players = new ArrayList<Mob>();
 	
-	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg.png");
+	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg_night.png");
 
 	public Level(int width, int height, String bgPath) {
 		loadBackground(bgPath);
@@ -62,7 +62,7 @@ public class Level extends Layer {
 			background = new int[w * h];			
 			image.getRGB(0, 0, w, h, background, 0, w);
 		} catch (IOException ex) {
-			System.out.println("Exception! Could not load level file!");
+			System.out.println("Exception! Could not load background file!");
 		}
 		
 	}
