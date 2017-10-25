@@ -81,12 +81,96 @@ public class Level extends Layer {
 			players.get(i).update();
 		}
 		remove();
+		
+		int[] savedCol = new int[bgheight];
+		
+		//zum testen einfach einen der drei-zeiler auskommentieren
+		//if bewegung nach rechts
+		savedCol = saveLeftCol(savedCol);
+		shiftPixelsToLeft();
+		fillRightCol(savedCol);
+		
+		//if bewegung nach links
+		savedCol = saveRightCol(savedCol);
+		shiftPixelsToRight();
+		fillLeftCol(savedCol);
 	}
 
 	private void remove() {
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).isRemoved()) players.remove(i);
 		}
+	}
+	
+	//speichert die erste Spalte
+	private int[] saveLeftCol(int[] firstCol){
+		for(int i = 0; i < bgheight; i++){
+			firstCol[i] = background[i * bgwidth];
+		}
+		return firstCol;
+	}
+	
+	//schiebt alle übrigen Pixel nach links
+	private void shiftPixelsToLeft(){
+		int m = 0;
+		int n = 0;
+		do{
+			background[m] = background[m + 1];
+			if(n != bgwidth - 2){
+				m++;
+				n++;
+			}
+			else{
+				m = m + 2;
+				n = 0;
+			}
+		}while(m < background.length - 1);		
+	}
+	
+	//fuellt die letzte Spalte auf
+	public void fillRightCol(int[] firstCol){
+		int y = bgwidth - 1;
+		int s = 0;
+		do{
+			background[y] = firstCol[s];
+			y += bgwidth;
+			s++;
+		}while(y < background.length);
+	}
+	
+	//speichert die letzte Spalte
+	private int[] saveRightCol(int[] lastCol){
+		for(int i = 0; i < bgheight; i++){
+			lastCol[i] = background[(bgwidth-1) + i*bgwidth];
+		}
+		return lastCol;
+	}
+	
+	//schiebt alle übrigen Pixel nach rechts
+	private void shiftPixelsToRight(){
+		int m = 0;
+		int n = 0;
+		do{
+			background[(bgwidth - 1 - n) + (m * bgwidth)] = background[(bgwidth -2 - n) + (m * bgwidth)];
+			if(((bgwidth - 2 - n))== 0){
+				m++;
+				n=0;
+			}
+			else{
+				n++;
+			}
+		}while(m < bgheight);		
+	}
+	
+	//fuellt die letzte Spalte auf
+	public void fillLeftCol(int[] lastCol){
+		int y = 0;
+		int s = 0;
+		do{
+			background[y] = lastCol[s];
+			y += bgwidth;
+			s++;
+		}while(y < background.length);
 	}
 
 	public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset) {
