@@ -45,7 +45,7 @@ public class Player extends Mob implements EventListener {
 
 	public void update() {
 		double xa = 0, ya = 0;
-		double speed = 3.4;
+		double speed = 3.4;		
 		if (input.up) {
 			ya -= speed;
 		} else {
@@ -71,6 +71,6 @@ public class Player extends Mob implements EventListener {
 	}
 
 	public void render(Screen screen) {
-		screen.renderSprite((int) (x - 64), (int) (y - 64), sprite, false);
+		screen.renderMob((int) (x - 64), (int) (y - 110), sprite, 0);
 	}
 }

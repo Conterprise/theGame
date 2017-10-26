@@ -146,9 +146,9 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		}
 
 		screen.clear();
-		//int xScroll = player.getX() - screen.width / 2;
-		//int yScroll = player.getY() - screen.height / 2;
-		//level.setScroll(xScroll, yScroll);
+		int xScroll = player.getX() - screen.width / 2;
+		int yScroll = (int) (player.getY() - screen.height * 0.8);
+		level.setScroll(xScroll, yScroll);
 		
 		//render layer
 		for (int i = 0; i < layerStack.size(); i++) {

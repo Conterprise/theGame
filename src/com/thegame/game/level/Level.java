@@ -78,23 +78,27 @@ public class Level extends Layer {
 	}
 
 	public void update() {
+		int[] savedCol = new int[bgheight];
+		int direction = 0;
+		
 		for (int i = 0; i < players.size(); i++) {
 			players.get(i).update();
+			
+			if (players.get(i) instanceof Player) {
+				direction += players.get(i).getDirection();
+			}			
 		}
 		remove();
 		
-		int[] savedCol = new int[bgheight];
-		
-		//zum testen einfach einen der drei-zeiler auskommentieren
-		//if bewegung nach rechts
-		savedCol = saveLeftCol(savedCol);
-		shiftPixelsToLeft();
-		fillRightCol(savedCol);
-		
-		//if bewegung nach links
-		//savedCol = saveRightCol(savedCol);
-		//shiftPixelsToRight();
-		//fillLeftCol(savedCol);
+		if (direction < 0) {
+			savedCol = saveRightCol(savedCol);
+			shiftPixelsToRight();
+			fillLeftCol(savedCol);
+		} else if (direction > 0) {
+			savedCol = saveLeftCol(savedCol);
+			shiftPixelsToLeft();
+			fillRightCol(savedCol);			
+		}
 	}
 
 	private void remove() {
@@ -247,10 +251,6 @@ public class Level extends Layer {
 		return result;
 	}
 
-
-	// Grass = 0xFF00
-	// Flower = 0xFFFF00
-	// Rock = 0x7F7F00
 	public Tile getTile(int x, int y) {
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
 		if (tiles[x + y * width] == Screen.ALPHA_COL) return null;

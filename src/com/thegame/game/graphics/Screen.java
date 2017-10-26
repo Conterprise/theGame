@@ -130,18 +130,18 @@ public class Screen {
 	public void renderMob(int xp, int yp, Sprite sprite, int flip) {
 		xp -= xOffset;
 		yp -= yOffset;
-		for (int y = 0; y < 32; y++) {
+		for (int y = 0; y < sprite.getHeight(); y++) {
 			int ya = y + yp;
 			int ys = y;
-			if (flip == 2 || flip == 3) ys = 31 - y;
+			if (flip == 2 || flip == 3) ys = sprite.getHeight() - 1 - y;
 			
-			for (int x = 0; x < 32; x++) {
+			for (int x = 0; x < sprite.getWidth(); x++) {
 				int xa = x + xp;
 				int xs = x;
-				if (flip == 1 || flip == 3) xs = 31 - x;				
-				if (xa < -32 || xa >= width || ya < 0 || ya >= height) break;
+				if (flip == 1 || flip == 3) xs = sprite.getWidth() - 1 - x;				
+				if (xa < sprite.getWidth() * -1 || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;				
-				int col = sprite.pixels[xs + ys * 32];
+				int col = sprite.pixels[xs + ys * sprite.getWidth()];
 				if (col != ALPHA_COL) pixels[xa + ya * width] = col;
 			}
 		}
