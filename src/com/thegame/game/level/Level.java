@@ -25,8 +25,9 @@ public class Level extends Layer {
 	private int xScroll, yScroll;
 	
 	private List<Mob> players = new ArrayList<Mob>();
-	
-	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg_night.png");
+
+	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg.png");
+	public static Level night = new Level("/levels/night/map.png", "/levels/night/bg.png");
 
 	public Level(int width, int height, String bgPath) {
 		loadBackground(bgPath);
@@ -91,9 +92,9 @@ public class Level extends Layer {
 		fillRightCol(savedCol);
 		
 		//if bewegung nach links
-		savedCol = saveRightCol(savedCol);
-		shiftPixelsToRight();
-		fillLeftCol(savedCol);
+		//savedCol = saveRightCol(savedCol);
+		//shiftPixelsToRight();
+		//fillLeftCol(savedCol);
 	}
 
 	private void remove() {

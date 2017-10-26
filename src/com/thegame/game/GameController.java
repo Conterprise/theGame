@@ -22,8 +22,8 @@ import com.thegame.game.mob.Player;
 public class GameController extends Canvas implements Runnable, EventListener {
 	private static final long serialVersionUID = 1L;
 
-	private static int width = 600;
-	private static int height = width / 16 * 9;
+	private static int width = 1024;
+	private static int height = 480; //width / 16 * 9;
 	private static int scale = 1;
 	public static String title = "The Awesome Game";
 
@@ -47,7 +47,7 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		key = new Keyboard();
-		level = Level.spawn;
+		level = Level.night;
 		player = new Player("Vens", 50, 50, key);
 		level.addPlayer(player);
 		addLayer(level);
@@ -146,9 +146,9 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		}
 
 		screen.clear();
-		int xScroll = player.getX() - screen.width / 2;
-		int yScroll = player.getY() - screen.height / 2;
-		level.setScroll(xScroll, yScroll);
+		//int xScroll = player.getX() - screen.width / 2;
+		//int yScroll = player.getY() - screen.height / 2;
+		//level.setScroll(xScroll, yScroll);
 		
 		//render layer
 		for (int i = 0; i < layerStack.size(); i++) {
