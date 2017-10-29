@@ -6,10 +6,13 @@ import com.thegame.game.tile.Tile;
 
 public abstract class Mob extends Entity {
 
-	protected boolean moving = false;
 	protected boolean walking = false;
-	
+	protected boolean jumping = false;
+	protected boolean onfloor = false;
+
 	protected int health;
+	protected int jumpHeight;
+	protected int jumpHeight_max = 20;
 
 	protected enum Direction {
 		UP, DOWN, LEFT, RIGHT;
@@ -23,6 +26,8 @@ public abstract class Mob extends Entity {
 			move(xa, 0);
 			return;
 		}
+		
+		onfloor = collision(0, 1);
 
 		if (ya > 0) dir = Direction.DOWN;
 		if (ya < 0) dir = Direction.UP;
