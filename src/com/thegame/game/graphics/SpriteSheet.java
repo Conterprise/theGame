@@ -2,7 +2,6 @@ package com.thegame.game.graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 public class SpriteSheet {
@@ -14,6 +13,13 @@ public class SpriteSheet {
 	public int[] pixels;
 
 	public static SpriteSheet tiles = new SpriteSheet("/textures/sheets/spritesheet.png", 256);
+	
+	public static SpriteSheet player = new SpriteSheet("/textures/sheets/player_elf.png", 640, 640);
+	public static SpriteSheet player_idle = new SpriteSheet(player, 0, 0, 1, 5, 128);
+	public static SpriteSheet player_right = new SpriteSheet(player, 1, 0, 1, 5, 128);
+	public static SpriteSheet player_left = new SpriteSheet(player, 2, 0, 1, 5, 128);
+	public static SpriteSheet player_jump_right = new SpriteSheet(player, 3, 0, 1, 5, 128);
+	public static SpriteSheet player_jump_left = new SpriteSheet(player, 4, 0, 1, 5, 128);
 	
 	private Sprite[] sprites;
 	

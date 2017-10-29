@@ -12,9 +12,6 @@ public class Sprite {
 	public static Sprite rock = new Sprite(16, 1, 0, SpriteSheet.tiles);
 	public static Sprite voidSprite = new Sprite(16, 0x0000FF00);
 
-	// player sprites
-	public static Sprite player= new Sprite(128, 0, 1, SpriteSheet.tiles);
-
 	protected Sprite(SpriteSheet sheet, int width, int height) {
 		SIZE = (width == height) ? width : -1;
 		this.width = width;
