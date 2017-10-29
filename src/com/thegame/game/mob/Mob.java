@@ -10,8 +10,13 @@ import com.thegame.game.tile.Tile;
  */
 public abstract class Mob extends Entity {
 
-	protected boolean moving = false;
-	protected boolean walking = false;
+	protected boolean walking = false;	
+	protected boolean jumping = false;
+	protected boolean onfloor = false;
+	
+	protected int jumpHeight = 0;
+	protected int jumpHeight_MAX = 20;
+	
 	protected int health;
 
 	protected Direction dir;
@@ -78,6 +83,8 @@ public abstract class Mob extends Entity {
 				ya = 0;				
 			}
 		}
+		
+		onfloor = collision(0, 1);
 	}
 	
 	/**
@@ -122,6 +129,8 @@ public abstract class Mob extends Entity {
 	 */
 	
 	public int getDirection() {
+		if (!walking) return 0;
+		
 		switch(dir) {
 			case LEFT: return -1;
 			case RIGHT: return 1;

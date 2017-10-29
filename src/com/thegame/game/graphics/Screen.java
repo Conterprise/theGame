@@ -1,6 +1,5 @@
 package com.thegame.game.graphics;
 
-import com.thegame.game.mob.Mob;
 import com.thegame.game.tile.Tile;
 
 /**

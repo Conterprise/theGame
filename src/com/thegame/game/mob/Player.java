@@ -1,7 +1,6 @@
 package com.thegame.game.mob;
 
 import com.thegame.game.events.Event;
-import com.thegame.game.events.EventDispatcher;
 import com.thegame.game.events.EventListener;
 import com.thegame.game.graphics.AnimatedSprite;
 import com.thegame.game.graphics.Screen;
@@ -20,6 +19,8 @@ public class Player extends Mob implements EventListener {
 	private AnimatedSprite idle = new AnimatedSprite(SpriteSheet.player_idle, 128, 128, 4);
 	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 128, 128, 4);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_right, 128, 128, 4);
+	private AnimatedSprite jumpleft = new AnimatedSprite(SpriteSheet.player_jump_left, 128, 128, 4);
+	private AnimatedSprite jumpright = new AnimatedSprite(SpriteSheet.player_jump_right, 128, 128, 4);
 
 	private AnimatedSprite animSprite = idle;
 
@@ -58,7 +59,7 @@ public class Player extends Mob implements EventListener {
 	 * @see com.thegame.game.events.EventListener#onEvent(com.thegame.game.events.Event)
 	 */
 	public void onEvent(Event event) {
-		EventDispatcher dispatcher = new EventDispatcher(event);
+		//EventDispatcher dispatcher = new EventDispatcher(event);
 		//dispatcher.dispatch(Event.Type.MOUSE_PRESSED, (Event e) -> onMousePressed((MousePressedEvent)e)); 
 		//dispatcher.dispatch(Event.Type.MOUSE_RELEASED, (Event e) -> onMouseReleased((MouseReleasedEvent)e));
 	}
@@ -69,22 +70,15 @@ public class Player extends Mob implements EventListener {
 	public void update() {
 		double xa = 0, ya = 0;
 		double speed = 3.4;
-		
+				
 		if (walking) {
 			animSprite.update();
 		} else {
 			animSprite.setFrame(0);
 		}
 		
+		// horizontal movement
 		walking = false;
-		if (input.up) {
-			ya -= speed;
-		} else {
-			ya += (speed * 9.801);
-		}
-		if (input.down) {
-			ya += speed;
-		}
 		if (input.left) {
 			xa -= speed;
 			animSprite = left;
@@ -96,6 +90,25 @@ public class Player extends Mob implements EventListener {
 			walking = true;
 		}
 		
+		// jumping
+		if (input.up && onfloor) {
+			jumping = true;
+			jumpHeight = 0;
+		}
+		if (jumping) {
+			animSprite = (input.left) ? jumpleft : jumpright;
+			if (jumpHeight < jumpHeight_MAX) {
+				jumpHeight++;
+				ya -= speed;
+			} else {
+				jumping = false;
+			}
+		} else {
+			if (!onfloor) {
+				// g-force
+				ya += 9.801;
+			}
+		}
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
