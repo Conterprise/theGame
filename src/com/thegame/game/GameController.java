@@ -19,27 +19,34 @@ import com.thegame.game.input.Mouse;
 import com.thegame.game.level.Level;
 import com.thegame.game.mob.Player;
 
+/**
+ * The Class GameController.
+ * Controller für das Spiel. Umfasst alle Komponenten nach MVC-Struktur.
+ */
 public class GameController extends Canvas implements Runnable, EventListener {
+	
 	private static final long serialVersionUID = 1L;
-
 	private static int width = 1024;
 	private static int height = 480; //width / 16 * 9;
 	private static int scale = 1;
+	
 	public static String title = "The Awesome Game";
 
-	private Thread thread;
+	private Thread thread;										
 	private JFrame frame;
 	private Keyboard key;
 	private Level level;
 	private Player player;
+	
 	private boolean running = false;
-
 	private Screen screen;
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-
 	private List<Layer> layerStack = new ArrayList<Layer>();
 	
+	/**
+	 * Konstruktor - erzeugt eine Instanz von GameController
+	 */
 	public GameController() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
@@ -59,28 +66,28 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		addMouseMotionListener(mouse);
 	}
 	
+	/**
+	 * Fügt einen Layer zum LayerStack hinzu.
+	 * Layer sind Schichten, die übereinander auf der Spielfläche gerendert werden (bspw. Level)
+	 *
+	 * @param layer the layer
+	 */
 	public void addLayer(Layer layer) {
 		layerStack.add(layer);
 	}
 
-	public JFrame getFrame() {
-		return this.frame;
-	}
-	
-	public static int getWindowWidth() {
-		return width * scale;
-	}
-	
-	public static int getWindowHeight() {
-		return height * scale;
-	}
-
+	/**
+	 * Startet die GameLoop (Spieltakt für Update und Rendering)
+	 */
 	public synchronized void start() {
 		running = true;
 		thread = new Thread(this, "Display");
 		thread.start();
 	}
 
+	/**
+	 * Stoppt die GameLoop
+	 */
 	public synchronized void stop() {
 		running = false;
 		try {
@@ -90,6 +97,10 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		}
 	}
 
+	/**
+	 * run-Funktion, die bei jedem Spieltakt von der GameLoop aufgerufen wird
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run() {
 		long lastTime = System.nanoTime();
 		long timer = System.currentTimeMillis();
@@ -123,21 +134,32 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		stop();
 	}
 	
+	/**
+	 * Wird ausgeführt, wenn der EventListener ein neues Event meldet
+	 * @see com.thegame.game.events.EventListener#onEvent(com.thegame.game.events.Event)
+	 */
 	public void onEvent(Event event) {
 		for (int i = layerStack.size() - 1; i >= 0; i--) {
 			layerStack.get(i).onEvent(event);
 		}
 	}
 
+	/**
+	 * Aktualisiert das Spiel. Wird durch GameLoop aufgerufen.
+	 */
 	public void update() {
+		// gibt es Eingaben?
 		key.update();
 		
-		//update layer
+		// Aktualisiere alle Layer (bspw. Level)
 		for (int i = 0; i < layerStack.size(); i++) {
 			layerStack.get(i).update();
 		}
 	}
 
+	/**
+	 * Zeichne das Spiel auf Spielfläche
+	 */
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
@@ -150,18 +172,38 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		int yScroll = (int) (player.getY() - screen.height * 0.8);
 		level.setScroll(xScroll, yScroll);
 		
-		//render layer
+		// render layer
 		for (int i = 0; i < layerStack.size(); i++) {
 			layerStack.get(i).render(screen);
 		}
 		
+		// übertrage jedes Pixel von Screen
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
 
+		// Zeichne Spielfläche als Bild (image ist das Bild von pixels[])
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		g.dispose();
 		bs.show();
+	}
+	
+
+	
+	/**
+	 * GETTER & SETTER
+	 */
+	
+	public JFrame getFrame() {
+		return this.frame;
+	}
+	
+	public static int getWindowWidth() {
+		return width * scale;
+	}
+	
+	public static int getWindowHeight() {
+		return height * scale;
 	}
 }

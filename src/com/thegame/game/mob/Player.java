@@ -8,6 +8,10 @@ import com.thegame.game.graphics.Screen;
 import com.thegame.game.graphics.SpriteSheet;
 import com.thegame.game.input.Keyboard;
 
+/**
+ * The Class Player.
+ * Steuerbare Spielfigur im Spiel.
+ */
 public class Player extends Mob implements EventListener {
 
 	private String name;
@@ -19,12 +23,26 @@ public class Player extends Mob implements EventListener {
 
 	private AnimatedSprite animSprite = idle;
 
+	/**
+	 * Instantiates a new player.
+	 *
+	 * @param name the name
+	 * @param input the input
+	 */
 	public Player(String name, Keyboard input) {
 		this.name = name;
 		this.input = input;
 		health = 100;
 	}
 
+	/**
+	 * Instantiates a new player.
+	 *
+	 * @param name the name
+	 * @param x the x
+	 * @param y the y
+	 * @param input the input
+	 */
 	public Player(String name, int x, int y, Keyboard input) {
 		this.name = name;
 		this.x = x;
@@ -35,21 +53,19 @@ public class Player extends Mob implements EventListener {
 		// Player default attributes
 		health = 100;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
 
+	/* (non-Javadoc)
+	 * @see com.thegame.game.events.EventListener#onEvent(com.thegame.game.events.Event)
+	 */
 	public void onEvent(Event event) {
 		EventDispatcher dispatcher = new EventDispatcher(event);
 		//dispatcher.dispatch(Event.Type.MOUSE_PRESSED, (Event e) -> onMousePressed((MousePressedEvent)e)); 
 		//dispatcher.dispatch(Event.Type.MOUSE_RELEASED, (Event e) -> onMouseReleased((MouseReleasedEvent)e));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.thegame.game.mob.Mob#update()
+	 */
 	public void update() {
 		double xa = 0, ya = 0;
 		double speed = 3.4;
@@ -86,8 +102,25 @@ public class Player extends Mob implements EventListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.thegame.game.mob.Mob#render(com.thegame.game.graphics.Screen)
+	 */
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
 		screen.renderMob((int) (x - 64), (int) (y - 110), sprite, 0);
+	}
+	
+
+	
+	/**
+	 * GETTER & SETTER
+	 */
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }

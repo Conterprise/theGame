@@ -4,19 +4,42 @@ import com.thegame.game.entity.Entity;
 import com.thegame.game.graphics.Screen;
 import com.thegame.game.tile.Tile;
 
+/**
+ * The Class Mob.
+ * Spielfigur im Spiel.
+ */
 public abstract class Mob extends Entity {
 
 	protected boolean moving = false;
 	protected boolean walking = false;
-	
 	protected int health;
 
+	protected Direction dir;
+
+	/**
+	 * Mögliche Bewegungsrichtungen
+	 */
 	protected enum Direction {
 		UP, DOWN, LEFT, RIGHT;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see com.thegame.game.entity.Entity#update()
+	 */
+	public abstract void update();	
 	
-	protected Direction dir;
+	/* (non-Javadoc)
+	 * @see com.thegame.game.entity.Entity#render(com.thegame.game.graphics.Screen)
+	 */
+	public abstract void render(Screen screen);
 	
+	/**
+	 * Bewegt die Spielfigur relativ zur aktuellen Position im Level
+	 *
+	 * @param xa the xa
+	 * @param ya the ya
+	 */
 	public void move(double xa, double ya) {
 		if (xa != 0 && ya != 0) {
 			move(0, ya);
@@ -57,14 +80,25 @@ public abstract class Mob extends Entity {
 		}
 	}
 	
+	/**
+	 * Betragsfunktion: Liefert -1, wenn value negativ ist, ansonsten 1
+	 *
+	 * @param value the value
+	 * @return the int
+	 */
 	private int abs(double value) {
 		if (value < 0) return -1;
 		return 1;
 	}
-
-	public abstract void update();	
-	public abstract void render(Screen screen);
 		
+	/**
+	 * Liefert true, wenn die Spielfigur an übergebener Position im Level
+	 * mit einer Tile kollidieren würde.
+	 *
+	 * @param xa the xa
+	 * @param ya the ya
+	 * @return true, if is collision
+	 */
 	private boolean collision(double xa, double ya) {
 		boolean solid = false;		
 		for (int c = 0; c < 4; c++) {
@@ -80,6 +114,12 @@ public abstract class Mob extends Entity {
 		
 		return solid;
 	}	
+	
+
+	
+	/**
+	 * GETTER & SETTER
+	 */
 	
 	public int getDirection() {
 		switch(dir) {
