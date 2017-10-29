@@ -16,7 +16,6 @@ public abstract class Mob extends Entity {
 	
 	protected int jumpHeight = 0;
 	protected int jumpHeight_MAX = 20;
-	
 	protected int health;
 
 	protected Direction dir;
@@ -51,6 +50,8 @@ public abstract class Mob extends Entity {
 			move(xa, 0);
 			return;
 		}
+		
+		onfloor = collision(0, 1);
 
 		if (ya > 0) dir = Direction.DOWN;
 		if (ya < 0) dir = Direction.UP;

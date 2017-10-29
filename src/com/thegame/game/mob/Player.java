@@ -78,16 +78,33 @@ public class Player extends Mob implements EventListener {
 		}
 		
 		// horizontal movement
-		walking = false;
+		walking = input.left || input.right;
 		if (input.left) {
 			xa -= speed;
 			animSprite = left;
-			walking = true;
 		}
 		if (input.right) {
 			xa += speed;
 			animSprite = right;
-			walking = true;
+		}
+		
+		if (input.up && onfloor) {
+			jumping = true;
+			jumpHeight = 0;
+		}
+		if (jumping) {
+			if (jumpHeight < jumpHeight_MAX) {
+				jumpHeight++;
+				ya -= speed;
+			} else {
+				jumping = false;
+			}
+
+			animSprite = (input.left) ? jumpleft : jumpright;
+		}
+		if (!jumping && !onfloor) {
+			//ya += (speed * 9.801);
+			ya += 9.801;
 		}
 		
 		// jumping
