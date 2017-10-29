@@ -16,6 +16,8 @@ public class Player extends Mob implements EventListener {
 	private AnimatedSprite idle = new AnimatedSprite(SpriteSheet.player_idle, 128, 128, 4);
 	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 128, 128, 4);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_right, 128, 128, 4);
+	private AnimatedSprite jumpleft = new AnimatedSprite(SpriteSheet.player_jump_left, 128, 128, 4);
+	private AnimatedSprite jumpright = new AnimatedSprite(SpriteSheet.player_jump_right, 128, 128, 4);
 
 	private AnimatedSprite animSprite = idle;
 
@@ -53,31 +55,41 @@ public class Player extends Mob implements EventListener {
 	public void update() {
 		double xa = 0, ya = 0;
 		double speed = 3.4;
-		
+				
 		if (walking) {
 			animSprite.update();
 		} else {
 			animSprite.setFrame(0);
 		}
 		
-		walking = false;
-		if (input.up) {
-			ya -= speed;
-		} else {
-			ya += (speed * 9.801);
-		}
-		if (input.down) {
-			ya += speed;
-		}
+
+		walking = input.left || input.right;
 		if (input.left) {
 			xa -= speed;
 			animSprite = left;
-			walking = true;
 		}
 		if (input.right) {
 			xa += speed;
 			animSprite = right;
-			walking = true;
+		}
+		
+		if (input.up && onfloor) {
+			jumping = true;
+			jumpHeight = 0;
+		}
+		if (jumping) {
+			if (jumpHeight < jumpHeight_max) {
+				jumpHeight++;
+				ya -= speed;
+			} else {
+				jumping = false;
+			}
+
+			animSprite = (input.left) ? jumpleft : jumpright;
+		}
+		if (!jumping && !onfloor) {
+			//ya += (speed * 9.801);
+			ya += 9.801;
 		}
 		
 
