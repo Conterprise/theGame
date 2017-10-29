@@ -69,12 +69,14 @@ public class Player extends Mob implements EventListener {
 	 */
 	public void update() {
 		double xa = 0, ya = 0;
-		double speed = 3.4;
+		double speed = 5.4;
+		double gforce = 9.801;
 				
-		if (walking) {
+		if (walking || jumping) {
 			animSprite.update();
 		} else {
 			animSprite.setFrame(0);
+
 		}
 		
 		// horizontal movement
@@ -103,28 +105,7 @@ public class Player extends Mob implements EventListener {
 			animSprite = (input.left) ? jumpleft : jumpright;
 		}
 		if (!jumping && !onfloor) {
-			//ya += (speed * 9.801);
-			ya += 9.801;
-		}
-		
-		// jumping
-		if (input.up && onfloor) {
-			jumping = true;
-			jumpHeight = 0;
-		}
-		if (jumping) {
-			animSprite = (input.left) ? jumpleft : jumpright;
-			if (jumpHeight < jumpHeight_MAX) {
-				jumpHeight++;
-				ya -= speed;
-			} else {
-				jumping = false;
-			}
-		} else {
-			if (!onfloor) {
-				// g-force
-				ya += 9.801;
-			}
+			ya += gforce;
 		}
 
 		if (xa != 0 || ya != 0) {
