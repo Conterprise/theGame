@@ -1,7 +1,11 @@
 package com.thegame.game.graphics;
 
+/**
+ * The Class Sprite.
+ * Grafikobjekt, das gezeichnet werden kann
+ */
 public class Sprite {
-
+	
 	public final int SIZE;
 	private int x, y;
 	private int width, height;
@@ -12,6 +16,13 @@ public class Sprite {
 	public static Sprite rock = new Sprite(16, 1, 0, SpriteSheet.tiles);
 	public static Sprite voidSprite = new Sprite(16, 0x0000FF00);
 
+	/**
+	 * Instantiates a new sprite.
+	 *
+	 * @param sheet the sheet
+	 * @param width the width
+	 * @param height the height
+	 */
 	protected Sprite(SpriteSheet sheet, int width, int height) {
 		SIZE = (width == height) ? width : -1;
 		this.width = width;
@@ -19,6 +30,14 @@ public class Sprite {
 		this.sheet = sheet;
 	}
 
+	/**
+	 * Instantiates a new sprite.
+	 *
+	 * @param size the size
+	 * @param x the x
+	 * @param y the y
+	 * @param sheet the sheet
+	 */
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
 		this.width = size;
@@ -30,6 +49,13 @@ public class Sprite {
 		load();
 	}
 
+	/**
+	 * Instantiates a new sprite.
+	 *
+	 * @param width the width
+	 * @param height the height
+	 * @param color the color
+	 */
 	public Sprite(int width, int height, int color) {
 		SIZE = -1;
 		this.width = width;
@@ -38,6 +64,12 @@ public class Sprite {
 		setColor(color);
 	}
 
+	/**
+	 * Instantiates a new sprite.
+	 *
+	 * @param size the size
+	 * @param color the color
+	 */
 	public Sprite(int size, int color) {
 		SIZE = size;
 		this.width = size;
@@ -46,6 +78,13 @@ public class Sprite {
 		setColor(color);
 	}
 
+	/**
+	 * Instantiates a new sprite.
+	 *
+	 * @param pixels the pixels
+	 * @param width the width
+	 * @param height the height
+	 */
 	public Sprite(int[] pixels, int width, int height) {
 		SIZE = (width == height) ? width : -1;
 		this.width = width;
@@ -56,10 +95,26 @@ public class Sprite {
 		}
 	}
 	
+	/**
+	 * Rotiert das Grafikobjekt
+	 *
+	 * @param sprite the sprite
+	 * @param angle the angle
+	 * @return the sprite
+	 */
 	public static Sprite rotate(Sprite sprite, double angle) {
 		return new Sprite(rotate(sprite.pixels, sprite.width, sprite.height, angle), sprite.width, sprite.height);
 	}
 	
+	/**
+	 * Rotiert das Grafikobjekt
+	 *
+	 * @param pixels the pixels
+	 * @param width the width
+	 * @param height the height
+	 * @param angle the angle
+	 * @return the int[]
+	 */
 	private static int[] rotate(int[] pixels, int width, int height, double angle) {
 		int[] result = new int[width * height];
 		double nx_x = rot_x(-angle, 1.0, 0.0);
@@ -90,18 +145,40 @@ public class Sprite {
 		return result;
 	}
 	
+	/**
+	 * Hilfsfunktion für x-Rotation
+	 *
+	 * @param angle the angle
+	 * @param x the x
+	 * @param y the y
+	 * @return the double
+	 */
 	private static double rot_x(double angle, double x, double y) {
 		double cos = Math.cos(angle - Math.PI / 2);
 		double sin = Math.sin(angle - Math.PI / 2);
 		return x * cos + y * -sin;
 	}
 	
+	/**
+	 * Hilfsfunktion für y-Rotation
+	 *
+	 * @param angle the angle
+	 * @param x the x
+	 * @param y the y
+	 * @return the double
+	 */
 	private static double rot_y(double angle, double x, double y) {
 		double cos = Math.cos(angle - Math.PI / 2);
 		double sin = Math.sin(angle - Math.PI / 2);
 		return x * sin + y * cos;
 	}
 
+	/**
+	 * Teilt ein SpriteSheet in einzelne Grafikobjekte auf
+	 *
+	 * @param sheet the sheet
+	 * @return the sprite[]
+	 */
 	public static Sprite[] split(SpriteSheet sheet) {
 		int amount = (sheet.getWidth() * sheet.getHeight()) / (sheet.SPRITE_WIDTH * sheet.SPRITE_HEIGHT);
 		Sprite[] sprites = new Sprite[amount];
@@ -125,6 +202,23 @@ public class Sprite {
 		return sprites;
 	}
 
+	/**
+	 * Lädt die Pixelinformationen des Grafikobjekts vom SpriteSheet
+	 */
+	private void load() {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.SPRITE_WIDTH];
+			}
+		}
+	}
+	
+
+	
+	/*
+	 * GETTER and SETTER
+	 */
+	
 	private void setColor(int color) {
 		for (int i = 0; i < width * height; i++) {
 			pixels[i] = color;
@@ -137,13 +231,5 @@ public class Sprite {
 
 	public int getHeight() {
 		return height;
-	}
-
-	private void load() {
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.SPRITE_WIDTH];
-			}
-		}
 	}
 }

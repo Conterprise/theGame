@@ -14,21 +14,31 @@ import com.thegame.game.mob.Mob;
 import com.thegame.game.mob.Player;
 import com.thegame.game.tile.Tile;
 
+/**
+ * The Class Level.
+ * Umfasst alle Objekte eines Levels.
+ */
 public class Level extends Layer {
 
 	protected int width, height;
 	protected int bgwidth, bgheight;
 	protected int[] tiles;
 	protected int tile_size;
-	
 	private int[] background;
 	private int xScroll, yScroll;
-	
+
 	private List<Mob> players = new ArrayList<Mob>();
 
 	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg.png");
 	public static Level night = new Level("/levels/night/map.png", "/levels/night/bg.png");
 
+	/**
+	 * Instantiates a new level.
+	 *
+	 * @param width the width
+	 * @param height the height
+	 * @param bgPath the bg path
+	 */
 	public Level(int width, int height, String bgPath) {
 		loadBackground(bgPath);
 		this.width = width;
@@ -36,12 +46,23 @@ public class Level extends Layer {
 		generateLevel();
 	}
 
+	/**
+	 * Instantiates a new level.
+	 *
+	 * @param mapPath the map path
+	 * @param bgPath the bg path
+	 */
 	public Level(String mapPath, String bgPath) {
 		loadBackground(bgPath);
 		loadLevel(mapPath);
 		generateLevel();
 	}
 	
+	/**
+	 * Lädt das Aussehen des Levels aus Bilddatei auf lokalem Speicher
+	 *
+	 * @param mapPath the map path
+	 */
 	protected void loadLevel(String mapPath) {
 		try {
 			BufferedImage image = ImageIO.read(Level.class.getResource(mapPath));
@@ -55,6 +76,11 @@ public class Level extends Layer {
 		
 	}
 	
+	/**
+	 * Lädt das Hintergrundbild aus Bilddatei auf lokalem Speicher
+	 *
+	 * @param bgPath the bg path
+	 */
 	protected void loadBackground(String bgPath) {
 		try {
 			BufferedImage image = ImageIO.read(Level.class.getResource(bgPath));
@@ -68,6 +94,9 @@ public class Level extends Layer {
 		
 	}
 
+	/**
+	 * Generiert alle Tiles aus dem Level (Aussehen/Struktur/Form des Levels)
+	 */
 	protected void generateLevel() {
 		for (int y = 0; y < 64; y++) {
 			for (int x = 0; x < 64; x++) {
@@ -77,10 +106,15 @@ public class Level extends Layer {
 		tile_size = 16;
 	}
 
+	/** 
+	 * Aktualisiert das Level und alle Objekt im Level
+	 * @see com.thegame.game.graphics.Layer#update()
+	 */
 	public void update() {
 		int[] savedCol = new int[bgheight];
 		int direction = 0;
 		
+		// update player
 		for (int i = 0; i < players.size(); i++) {
 			players.get(i).update();
 			
@@ -90,6 +124,7 @@ public class Level extends Layer {
 		}
 		remove();
 		
+		// update background
 		if (direction < 0) {
 			savedCol = saveRightCol(savedCol);
 			shiftPixelsToRight();
@@ -101,12 +136,21 @@ public class Level extends Layer {
 		}
 	}
 
+	/**
+	 * Entfernt Objekte aus dem Level, die bereits entfernt wurden
+	 */
 	private void remove() {
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).isRemoved()) players.remove(i);
 		}
 	}
 	
+	/**
+	 * Speichert die rechte Pixel-Spalte des Hintergrundbildes
+	 *
+	 * @param firstCol the first col
+	 * @return the int[]
+	 */
 	//speichert die erste Spalte
 	private int[] saveLeftCol(int[] firstCol){
 		for(int i = 0; i < bgheight; i++){
@@ -115,6 +159,9 @@ public class Level extends Layer {
 		return firstCol;
 	}
 	
+	/**
+	 * Verschiebt alle Pixelspalten des Hintergrundbildes nach links
+	 */
 	//schiebt alle übrigen Pixel nach links
 	private void shiftPixelsToLeft(){
 		int m = 0;
@@ -132,6 +179,11 @@ public class Level extends Layer {
 		}while(m < background.length - 1);		
 	}
 	
+	/**
+	 * Füllt die rechte Pixelspalte des Hintergrundbildes
+	 *
+	 * @param firstCol the first col
+	 */
 	//fuellt die letzte Spalte auf
 	public void fillRightCol(int[] firstCol){
 		int y = bgwidth - 1;
@@ -143,6 +195,12 @@ public class Level extends Layer {
 		}while(y < background.length);
 	}
 	
+	/**
+	 * Speichert die linke Pixel-Spalte des Hintergrundbildes
+	 *
+	 * @param lastCol the last col
+	 * @return the int[]
+	 */
 	//speichert die letzte Spalte
 	private int[] saveRightCol(int[] lastCol){
 		for(int i = 0; i < bgheight; i++){
@@ -151,6 +209,9 @@ public class Level extends Layer {
 		return lastCol;
 	}
 	
+	/**
+	 * Verschiebt alle Pixelspalten des Hintergrundbildes nach rechts
+	 */
 	//schiebt alle übrigen Pixel nach rechts
 	private void shiftPixelsToRight(){
 		int m = 0;
@@ -167,6 +228,11 @@ public class Level extends Layer {
 		}while(m < bgheight);		
 	}
 	
+	/**
+	 * Füllt die linke Pixelspalte des Hintergrundbildes
+	 *
+	 * @param lastCol the last col
+	 */
 	//fuellt die letzte Spalte auf
 	public void fillLeftCol(int[] lastCol){
 		int y = 0;
@@ -178,6 +244,16 @@ public class Level extends Layer {
 		}while(y < background.length);
 	}
 
+	/**
+	 * Liefert true, wenn sich ein solides Tile an der Position auf dem Spielfeld befindet
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param size the size
+	 * @param xOffset the x offset
+	 * @param yOffset the y offset
+	 * @return true, if successful
+	 */
 	public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset) {
 		boolean solid = false;
 		for (int c = 0; c < 4; c++) {
@@ -188,11 +264,20 @@ public class Level extends Layer {
 		return solid;
 	}
 	
+	/**
+	 * Setzt den Offset für das Scrolling des Levels auf (sichtbarer) Spielfläche
+	 *
+	 * @param xScroll the x scroll
+	 * @param yScroll the y scroll
+	 */
 	public void setScroll(int xScroll, int yScroll) {
 		this.xScroll = xScroll;
 		this.yScroll = yScroll;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.thegame.game.graphics.Layer#render(com.thegame.game.graphics.Screen)
+	 */
 	public void render(Screen screen) {
 		screen.setOffset(xScroll, yScroll);
 		int x0 = xScroll >> 4;
@@ -215,6 +300,11 @@ public class Level extends Layer {
 		}
 	}
 
+	/**
+	 * Fügt ein beliebiges Objekt, das von Entity erbt, in Level ein
+	 *
+	 * @param e the e
+	 */
 	public void add(Entity e) {
 		e.init(this);
 		if (e instanceof Player) {
@@ -222,19 +312,42 @@ public class Level extends Layer {
 		}
 	}
 	
+	/**
+	 * Fügt eine Spielfigur in Level ein
+	 *
+	 * @param player the player
+	 */
 	public void addPlayer(Mob player) {
 		player.init(this);
 		players.add(player);
 	}
 
+	/**
+	 * Liefert alle Spieler in diesem Level
+	 * 
+	 * @return List of als Mob in this Level
+	 */
 	public List<Mob> getPlayers() {
 		return players;
 	}
 
+	/**
+	 * Liefert die Spielfigur an Stelle index der Spielerliste
+	 *
+	 * @param index the index of Mob in list
+	 * @return Mob at position index
+	 */
 	public Mob getPlayerAt(int index) {
 		return players.get(index);
 	}
 
+	/**
+	 * Liefert eine Liste aller Spielfiguren in einem bestimmten Umkreis
+	 *
+	 * @param e the e
+	 * @param radius the radius
+	 * @return the players
+	 */
 	public List<Mob> getPlayers(Entity e, int radius) {
 		List<Mob> result = new ArrayList<Mob>();
 		int ex = (int) e.getX();
@@ -251,6 +364,13 @@ public class Level extends Layer {
 		return result;
 	}
 
+	/**
+	 * Liefert die Tile an einer Position der Level-Map
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the tile
+	 */
 	public Tile getTile(int x, int y) {
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
 		if (tiles[x + y * width] == Screen.ALPHA_COL) return null;
