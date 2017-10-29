@@ -191,8 +191,8 @@ public class GameController extends Canvas implements Runnable, EventListener {
 	
 
 	
-	/**
-	 * GETTER & SETTER
+	/*
+	 * GETTER and SETTER
 	 */
 	
 	public JFrame getFrame() {

@@ -112,8 +112,8 @@ public class Player extends Mob implements EventListener {
 	
 
 	
-	/**
-	 * GETTER & SETTER
+	/*
+	 * GETTER and SETTER
 	 */
 	
 	public void setName(String name) {

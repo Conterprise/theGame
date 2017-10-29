@@ -27,7 +27,7 @@ public class Screen {
 	}
 
 	/**
-	 * Löscht alle Pixel auf Spielfläche --> schwarz
+	 * Löscht alle Pixel auf Spielfläche
 	 */
 	public void clear() {
 		for (int i = 0; i < pixels.length; i++) {

@@ -95,7 +95,7 @@ public class Level extends Layer {
 	}
 
 	/**
-	 * Generiert alle Tiles aus dem Level --> Aussehen / Struktur
+	 * Generiert alle Tiles aus dem Level (Aussehen/Struktur/Form des Levels)
 	 */
 	protected void generateLevel() {
 		for (int y = 0; y < 64; y++) {
@@ -324,6 +324,8 @@ public class Level extends Layer {
 
 	/**
 	 * Liefert alle Spieler in diesem Level
+	 * 
+	 * @return List of als Mob in this Level
 	 */
 	public List<Mob> getPlayers() {
 		return players;
@@ -332,7 +334,8 @@ public class Level extends Layer {
 	/**
 	 * Liefert die Spielfigur an Stelle index der Spielerliste
 	 *
-	 * @param index the index of player in list
+	 * @param index the index of Mob in list
+	 * @return Mob at position index
 	 */
 	public Mob getPlayerAt(int index) {
 		return players.get(index);

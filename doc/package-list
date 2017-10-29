@@ -1,0 +1,8 @@
+com.thegame.game
+com.thegame.game.entity
+com.thegame.game.events
+com.thegame.game.graphics
+com.thegame.game.input
+com.thegame.game.level
+com.thegame.game.mob
+com.thegame.game.tile

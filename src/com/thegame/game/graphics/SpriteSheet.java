@@ -122,8 +122,8 @@ public class SpriteSheet {
 	
 
 	
-	/**
-	 * GETTER & SETTER
+	/*
+	 * GETTER and SETTER
 	 */
 	
 	public Sprite[] getSprites() {

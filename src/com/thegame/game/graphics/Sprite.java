@@ -215,8 +215,8 @@ public class Sprite {
 	
 
 	
-	/**
-	 * GETTER & SETTER
+	/*
+	 * GETTER and SETTER
 	 */
 	
 	private void setColor(int color) {

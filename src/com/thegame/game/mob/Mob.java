@@ -117,8 +117,8 @@ public abstract class Mob extends Entity {
 	
 
 	
-	/**
-	 * GETTER & SETTER
+	/*
+	 * GETTER and SETTER
 	 */
 	
 	public int getDirection() {
