@@ -26,7 +26,10 @@ public class AnimatedSprite extends Sprite {
 		}
 	}
 	
-	public Sprite getSprite() {
+	public Sprite getSprite(boolean flip) {
+		if (flip) {
+			return Sprite.flipVertical(sprite);
+		}
 		return sprite;
 	}
 	

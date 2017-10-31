@@ -17,12 +17,32 @@ public class SpriteSheet {
 	
 	public static SpriteSheet tiles = new SpriteSheet("/textures/sheets/spritesheet.png", 256);
 	
-	public static SpriteSheet player = new SpriteSheet("/textures/sheets/player_elf.png", 640, 640);
+	public static SpriteSheet player = new SpriteSheet("/textures/sheets/player_elf.png", 896, 640);
 	public static SpriteSheet player_idle = new SpriteSheet(player, 0, 0, 1, 5, 128);
-	public static SpriteSheet player_right = new SpriteSheet(player, 1, 0, 1, 5, 128);
-	public static SpriteSheet player_left = new SpriteSheet(player, 2, 0, 1, 5, 128);
-	public static SpriteSheet player_jump_right = new SpriteSheet(player, 3, 0, 1, 5, 128);
-	public static SpriteSheet player_jump_left = new SpriteSheet(player, 4, 0, 1, 5, 128);
+	public static SpriteSheet player_walk = new SpriteSheet(player, 1, 0, 1, 5, 128);
+	public static SpriteSheet player_run = new SpriteSheet(player, 2, 0, 1, 5, 128);
+	public static SpriteSheet player_jump = new SpriteSheet(player, 3, 0, 1, 5, 128);
+	public static SpriteSheet player_attack = new SpriteSheet(player, 4, 0, 1, 5, 128);
+	public static SpriteSheet player_hurt = new SpriteSheet(player, 5, 0, 1, 5, 128);
+	public static SpriteSheet player_die = new SpriteSheet(player, 6, 0, 1, 5, 128);
+	
+	public static SpriteSheet knight = new SpriteSheet("/textures/sheets/player_knight.png", 896, 896);
+	public static SpriteSheet knight_idle = new SpriteSheet(knight, 0, 0, 1, 7, 128);
+	public static SpriteSheet knight_walk = new SpriteSheet(knight, 1, 0, 1, 7, 128);
+	public static SpriteSheet knight_run = new SpriteSheet(knight, 2, 0, 1, 7, 128);
+	public static SpriteSheet knight_jump = new SpriteSheet(knight, 3, 0, 1, 7, 128);
+	public static SpriteSheet knight_attack = new SpriteSheet(knight, 4, 0, 1, 7, 128);
+	public static SpriteSheet knight_hurt = new SpriteSheet(knight, 5, 0, 1, 7, 128);
+	public static SpriteSheet knight_die = new SpriteSheet(knight, 6, 0, 1, 7, 128);
+	
+	public static SpriteSheet knight2 = new SpriteSheet("/textures/sheets/player_knight2.png", 896, 896);
+	public static SpriteSheet knight2_idle = new SpriteSheet(knight2, 0, 0, 1, 7, 128);
+	public static SpriteSheet knight2_walk = new SpriteSheet(knight2, 1, 0, 1, 7, 128);
+	public static SpriteSheet knight2_run = new SpriteSheet(knight2, 2, 0, 1, 7, 128);
+	public static SpriteSheet knight2_jump = new SpriteSheet(knight2, 3, 0, 1, 7, 128);
+	public static SpriteSheet knight2_attack = new SpriteSheet(knight2, 4, 0, 1, 7, 128);
+	public static SpriteSheet knight2_hurt = new SpriteSheet(knight2, 5, 0, 1, 7, 128);
+	public static SpriteSheet knight2_die = new SpriteSheet(knight2, 6, 0, 1, 7, 128);
 	
 	private Sprite[] sprites;
 	
