@@ -44,6 +44,17 @@ public class SpriteSheet {
 	public static SpriteSheet knight2_hurt = new SpriteSheet(knight2, 5, 0, 1, 7, 128);
 	public static SpriteSheet knight2_die = new SpriteSheet(knight2, 6, 0, 1, 7, 128);
 	
+	public static SpriteSheet coins = new SpriteSheet("/textures/sheets/coins.png", 320, 288);
+	public static SpriteSheet bronze_one = new SpriteSheet(coins, 0, 0, 10, 1, 32);
+	public static SpriteSheet bronze_heart = new SpriteSheet(coins, 0, 1, 10, 1, 32);
+	public static SpriteSheet bronze_star = new SpriteSheet(coins, 0, 2, 10, 1, 32);
+	public static SpriteSheet silver_one = new SpriteSheet(coins, 0, 3, 10, 1, 32);
+	public static SpriteSheet silver_heart = new SpriteSheet(coins, 0, 4, 10, 1, 32);
+	public static SpriteSheet silver_star = new SpriteSheet(coins, 0, 5, 10, 1, 32);
+	public static SpriteSheet gold_one = new SpriteSheet(coins, 0, 6, 10, 1, 32);
+	public static SpriteSheet gold_heart = new SpriteSheet(coins, 0, 7, 10, 1, 32);
+	public static SpriteSheet gold_star = new SpriteSheet(coins, 0, 8, 10, 1, 32);
+	
 	private Sprite[] sprites;
 	
 	/**
