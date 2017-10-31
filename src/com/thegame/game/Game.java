@@ -85,6 +85,7 @@ public class Game {
 		playFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		playFrame.setLocationRelativeTo(null);
 		playFrame.setVisible(true);
+		playFrame.repaint();
 
 		game.start();
 	}

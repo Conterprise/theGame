@@ -9,9 +9,13 @@ import com.thegame.game.tile.Tile;
  * Spielfigur im Spiel.
  */
 public abstract class Mob extends Entity {
+	
+	public static final double GFORCE = 9.801;
 
 	protected boolean walking = false;	
+	protected boolean running = false;
 	protected boolean jumping = false;
+	protected boolean attacking = false;
 	protected boolean onfloor = false;
 	
 	protected int jumpHeight = 0;

@@ -17,6 +17,8 @@ import com.thegame.game.graphics.Screen;
 import com.thegame.game.input.Keyboard;
 import com.thegame.game.input.Mouse;
 import com.thegame.game.level.Level;
+import com.thegame.game.mob.Knight;
+import com.thegame.game.mob.Knight2;
 import com.thegame.game.mob.Player;
 
 /**
@@ -55,8 +57,12 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		frame = new JFrame();
 		key = new Keyboard();
 		level = Level.night;
-		player = new Player("Vens", 50, 50, key);
-		level.addPlayer(player);
+		
+		player = new Player("Vens", 50, 50, key);		
+		level.addPlayer(player);		
+		level.addPlayer(new Knight(100, 100));		
+		level.addPlayer(new Knight2(200, 200));
+		
 		addLayer(level);
 				
 		addKeyListener(key);

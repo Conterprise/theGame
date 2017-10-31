@@ -96,7 +96,37 @@ public class Sprite {
 	}
 	
 	/**
-	 * Rotiert das Grafikobjekt
+	 * Statisch: Spiegelt das übergebene Grafikobjekt an der vertikalen Achse
+	 *
+	 * @param sprite the sprite
+	 * @return the sprite
+	 */
+	public static Sprite flipVertical(Sprite sprite) {
+		return new Sprite(flipVertical(sprite.pixels, sprite.width, sprite.height), sprite.width, sprite.height);
+	}
+	
+	/**
+	 * Hilfsfunktion für vertikale Spiegelung
+	 *
+	 * @param pixels the pixels
+	 * @param width the width
+	 * @param height the height
+	 * @return the int[]
+	 */
+	private static int[] flipVertical(int[] pixels, int width, int height) {
+		int[] result = new int[width * height];
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				result[(width-x-1) + y * width] = pixels[x + y * width];
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Statisch: Rotiert das übergebene Grafikobjekt um den Winkel angle
 	 *
 	 * @param sprite the sprite
 	 * @param angle the angle
