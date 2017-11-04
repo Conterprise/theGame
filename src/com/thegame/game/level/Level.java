@@ -1,13 +1,11 @@
 package com.thegame.game.level;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import com.thegame.game.collectable.Collectable;
+import com.thegame.game.config.XmlLevelConfig;
 import com.thegame.game.entity.Entity;
 import com.thegame.game.graphics.Layer;
 import com.thegame.game.graphics.Screen;
@@ -26,14 +24,15 @@ public class Level extends Layer {
 	protected int bgwidth, bgheight;
 	protected int[] tiles;
 	protected int tile_size;
-	private int[] background;
-	private int xScroll, yScroll;
+	protected String levelname;
+	protected int[] background;
+	protected int xScroll, yScroll;
 
-	private List<Mob> players = new ArrayList<Mob>();
-	private List<Collectable> collectables = new ArrayList<Collectable>();
+	protected List<Player> players = new ArrayList<Player>();
+	protected List<Mob> mobs = new ArrayList<Mob>();
+	protected List<Collectable> collectables = new ArrayList<Collectable>();
 
-	public static Level spawn = new Level("/levels/spawn/map.png", "/levels/spawn/bg.png");
-	public static Level night = new Level("/levels/night/map.png", "/levels/night/bg.png");
+	public static List<Level> levels = new ArrayList<Level>();
 
 	/**
 	 * Instantiates a new level.
@@ -42,66 +41,23 @@ public class Level extends Layer {
 	 *            the width
 	 * @param height
 	 *            the height
-	 * @param bgPath
-	 *            the bg path
 	 */
-	public Level(int width, int height, String bgPath) {
-		loadBackground(bgPath);
+	public Level(int width, int height) {
 		this.width = width;
 		this.height = height;
+		this.tiles = new int[width * height];
 		generateLevel();
 	}
 
 	/**
 	 * Instantiates a new level.
 	 *
-	 * @param mapPath
-	 *            the map path
-	 * @param bgPath
-	 *            the bg path
+	 * @param xmlFile
+	 *            the xml config of a level
 	 */
-	public Level(String mapPath, String bgPath) {
-		loadBackground(bgPath);
-		loadLevel(mapPath);
+	public Level(File xmlFile) {
+		XmlLevelConfig.loadLevelConfig(this, xmlFile);
 		generateLevel();
-	}
-
-	/**
-	 * Lädt das Aussehen des Levels aus Bilddatei auf lokalem Speicher
-	 *
-	 * @param mapPath
-	 *            the map path
-	 */
-	protected void loadLevel(String mapPath) {
-		try {
-			BufferedImage image = ImageIO.read(Level.class.getResource(mapPath));
-			int w = width = image.getWidth();
-			int h = height = image.getHeight();
-			tiles = new int[w * h];
-			image.getRGB(0, 0, w, h, tiles, 0, w);
-		} catch (IOException ex) {
-			System.out.println("Exception! Could not load level file!");
-		}
-
-	}
-
-	/**
-	 * Lädt das Hintergrundbild aus Bilddatei auf lokalem Speicher
-	 *
-	 * @param bgPath
-	 *            the bg path
-	 */
-	protected void loadBackground(String bgPath) {
-		try {
-			BufferedImage image = ImageIO.read(Level.class.getResource(bgPath));
-			int w = bgwidth = image.getWidth();
-			int h = bgheight = image.getHeight();
-			background = new int[w * h];
-			image.getRGB(0, 0, w, h, background, 0, w);
-		} catch (IOException ex) {
-			System.out.println("Exception! Could not load background file!");
-		}
-
 	}
 
 	/**
@@ -164,6 +120,9 @@ public class Level extends Layer {
 		}
 		for (int i = 0; i < collectables.size(); i++) {
 			if (collectables.get(i).isRemoved()) collectables.remove(i);
+		}
+		for (int i = 0; i < mobs.size(); i++) {
+			if (mobs.get(i).isRemoved()) mobs.remove(i);
 		}
 	}
 
@@ -334,6 +293,10 @@ public class Level extends Layer {
 			players.get(i).render(screen);
 		}
 
+		for (int i = 0; i < mobs.size(); i++) {
+			mobs.get(i).render(screen);
+		}
+
 		for (int i = 0; i < collectables.size(); i++) {
 			collectables.get(i).render(screen);
 		}
@@ -348,33 +311,72 @@ public class Level extends Layer {
 	public void add(Entity e) {
 		e.init(this);
 		if (e instanceof Player) {
+			((Player) e).init(this);
 			players.add((Player) e);
-		}
-		if (e instanceof Collectable) {
+		} else if (e instanceof Mob) {
+			((Mob) e).init(this);
+			mobs.add((Mob) e);
+		} else if (e instanceof Collectable) {
 			collectables.add((Collectable) e);
 		}
 	}
 
 	/**
-	 * Fügt eine Spielfigur in Level ein
-	 *
-	 * @param player
-	 *            the player
-	 */
-	public void addPlayer(Mob player) {
-		player.init(this);
-		players.add(player);
-	}
-
-	/**
 	 * Liefert alle Spieler in diesem Level
 	 * 
-	 * @return List of als Mob in this Level
+	 * @return List of Players in this Level
 	 */
-	public List<Mob> getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
 	}
 
+	/**
+	 * Liefert alle KI-Spieler in diesem Level
+	 * 
+	 * @return List of Mob in this Level
+	 */
+	public List<Mob> getMobs() {
+		return mobs;
+	}
+
+
+	/**
+	 * Liefert alle Collectables in diesem Level
+	 * 
+	 * @return List of Collectables in this Level
+	 */
+	public List<Collectable> getCollectables() {
+		return collectables;
+	}
+	
+	public String getLevelname() {
+		return levelname;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getBgWidth() {
+		return bgwidth;
+	}
+
+	public int getBgHeight() {
+		return bgheight;
+	}
+
+	public int[] getBackground() {
+		return background;
+	}
+	
+	public int[] getTiles() {
+		return tiles;
+	}
+	
 	/**
 	 * Liefert die Spielfigur an Stelle index der Spielerliste
 	 *
@@ -422,11 +424,28 @@ public class Level extends Layer {
 	 */
 	public Tile getTile(int x, int y) {
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
-		if (tiles[x + y * width] == Screen.ALPHA_COL) return null;
-		if (tiles[x + y * width] == Tile.col_grass) return Tile.grass;
-		if (tiles[x + y * width] == Tile.col_rock) return Tile.rock;
+		return Tile.getTile(tiles[x + y * width]);
+	}
+	
 
-		return Tile.voidTile;
+	public void setLevelname(String levelname) {
+		this.levelname = levelname;
+	}
+
+	public void setSize(int width, int height) {
+		this.width = width;
+		this.height = height;
+		this.tiles = new int[width * height];
+	}
+
+	public void setTiles(int[] tiles) {
+		this.tiles = tiles;
+	}
+
+	public void setBackground(int[] background, int width, int height) {
+		this.background = background;
+		this.bgwidth = width;
+		this.bgheight = height;
 	}
 
 	/**

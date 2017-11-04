@@ -25,4 +25,19 @@ public class Tile {
 	public boolean solid() {
 		return false;
 	}
+
+	public static Tile getTile(int color) {
+		if (color == Screen.ALPHA_COL) return null;
+		if (color == Tile.col_grass) return Tile.grass;
+		if (color == Tile.col_rock) return Tile.rock;
+
+		return Tile.voidTile;
+	}
+
+	public int getMapColor() {
+		if (this instanceof GrassTile) return Tile.col_grass;
+		if (this instanceof RockTile) return Tile.col_rock;
+		
+		return -1;
+	}
 }

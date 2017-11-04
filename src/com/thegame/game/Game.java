@@ -2,7 +2,7 @@ package com.thegame.game;
 
 import javax.swing.*;
 
-import com.thegame.leveldesign.LevelDesigner;
+import com.thegame.design.Designer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -107,12 +107,12 @@ public class Game {
 		menuFrame.dispose();
 		menuFrame = null;
 		
-		LevelDesigner designer = new LevelDesigner();
+		Designer designer = new Designer();
 		JFrame designerFrame = designer.getFrame();
 		
 		designerFrame.setResizable(false);
-		designerFrame.setTitle(LevelDesigner.title);
-		designerFrame.add(designer.getView());
+		designerFrame.setTitle(Designer.title);
+		designerFrame.add(designer);
 		designerFrame.pack();
 		designerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		designerFrame.setLocationRelativeTo(null);

@@ -18,7 +18,7 @@ public class Knight extends Mob {
 	private AnimatedSprite hurt = new AnimatedSprite(SpriteSheet.knight_hurt, 128, 128, 7);
 	private AnimatedSprite die = new AnimatedSprite(SpriteSheet.knight_die, 128, 128, 7);
 
-	private AnimatedSprite animSprite = idle;
+	private AnimatedSprite animSprite = die;
 
 	/**
 	 * Instantiates a new player.
@@ -56,6 +56,7 @@ public class Knight extends Mob {
 		double speed = 3.4;
 		
 		ya += GFORCE;
+		xa += (speed / 2);
 		
 		animSprite.update();
 

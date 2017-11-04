@@ -6,10 +6,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 
+import com.thegame.game.config.XmlLevelConfig;
 import com.thegame.game.events.Event;
 import com.thegame.game.events.EventListener;
 import com.thegame.game.graphics.Layer;
@@ -56,12 +58,15 @@ public class GameController extends Canvas implements Runnable, EventListener {
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		key = new Keyboard();
-		level = Level.night;
+		
+		File levelFile = new File("/home/vens/test.xml");
+		level = new Level(50, 50);
+		XmlLevelConfig.loadLevelConfig(level, levelFile);
 		
 		player = new Player("Vens", 50, 50, key);		
-		level.addPlayer(player);		
-		level.addPlayer(new Knight(100, 100));		
-		level.addPlayer(new Knight2(200, 200));
+		level.add(player);		
+		level.add(new Knight(100, 100));		
+		level.add(new Knight2(200, 200));
 		
 		addLayer(level);
 				

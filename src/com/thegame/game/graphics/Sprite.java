@@ -1,5 +1,11 @@
 package com.thegame.game.graphics;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.awt.image.WritableRaster;
+
+
 /**
  * The Class Sprite.
  * Grafikobjekt, das gezeichnet werden kann
@@ -261,5 +267,16 @@ public class Sprite {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public Image getImage() {
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    	int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();    	
+    	
+    	for (int i = 0; i < pixels.length; i++) {
+    		pixels[i] = this.pixels[i];
+    	}
+    	
+        return image;
 	}
 }

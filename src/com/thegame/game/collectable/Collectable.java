@@ -31,7 +31,7 @@ public class Collectable extends Entity {
 	
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite(false);
-		screen.renderSprite((int) (x - 64), (int) (y - 110), sprite, true);
+		screen.renderSprite((int) (x - 16), (int) (y - 16), sprite, true);
 	}
 	
 }
